@@ -1,7 +1,7 @@
 Given(/^o sistema possui o departamento de "([^"]*)"cadastrado$/) do |dep_name|
   Department.create(name: dep_name)
   teste = Department.find_by_name(dep_name)
-  assert true
+
 
 end
 
@@ -9,15 +9,15 @@ Given(/^o sistema possui o laboratorio de "([^"]*)" cadastrado no departamento d
   dep = Department.find_by_name(dep_name)
   Laboratory.create(name: lab_name, dep_name: dep_name)
 end
-=begin
-Given(/^o sistema possui "([^"]*)" de residuos cadastrados no laboratorio de "([^"]*)"$/) do |res_weight, lab_name|
-	lab = Laboratory.where(name: lab_name)[0] != nil
-	assert lab != nil
-	param_res1 = {residue: {name: "Acido", laboratory: lab_name, weigth: res_weight}}
-	post '/residues', param_res1
-	assert Department.total_residues() == res_weight
+@total=0
+Given(/^o sistema possui "([^"]*)"kg de residuos cadastrados no laboratório de "([^"]*)"$/) do |res_weight, lab_name|
+  lab = Laboratory.find_by_name(lab_name)
+  Residue.create(name: "Acido", lab_name: lab_name, weight: res_weight)
+  r = Residue.where(lab_name: lab_name)
+  total = r.total
+  p total
 end
-
+=begin
 when(/^eu tento produzir o relatório do total de residuos cadastrados entre as datas "([^"]*)" e "([^"]*)" para o "([^"]*)"$/) do |data_begin, data_final, dep_name|
 	assert Departament.where(name: dep_name)[0] != nil
 	residues_total = Department.where(created_at:[data_inicio.to_date..data_fim.to_date])
@@ -42,3 +42,6 @@ Given(/^o sistema possui "([^"]*)" de residuos cadastrados entre as datas "([^"]
 
 end
 =end
+
+
+

@@ -7,7 +7,7 @@ Feature: Geração de Relatórios
   Scenario: Produzir um relatório do total de resíduo(s), por Laboratório / Departamento / Resíduos entre datas específicas
     Given o sistema possui o departamento de "Engenharia Química"cadastrado
     And o sistema possui o laboratorio de "Processos Químicos" cadastrado no departamento de "Engenharia Química"
-    And o sistema possui "500"kg de resíduos cadastrados no laboratório de "Processos Químicos"
+    And o sistema possui "500"kg de residuos cadastrados no laboratório de "Processos Químicos"
     When eu tento produzir o relatório total de resíduos cadastrados entre as datas "21/02/2017" e "24/03/2017" para o "Departamento de Engenharia Química"
     Then o valor retornado pelo sistema será "500"kg.
 

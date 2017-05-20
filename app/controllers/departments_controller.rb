@@ -59,7 +59,6 @@ class DepartmentsController < ApplicationController
       format.html { redirect_to departments_url, notice: 'Department was successfully destroyed.' }
       format.json { head :no_content }
     end
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
