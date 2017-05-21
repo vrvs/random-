@@ -8,16 +8,17 @@ Feature: Geração de Relatórios
     Given o sistema possui o departamento de "Engenharia Química"cadastrado
     And o sistema possui o laboratorio de "Processos Químicos" cadastrado no departamento de "Engenharia Química"
     And o sistema possui "500"kg de residuos cadastrados no laboratório de "Processos Químicos"
-    When eu tento produzir o relatório total de resíduos cadastrados entre as datas "21/02/2017" e "24/03/2017" para o "Departamento de Engenharia Química"
-    Then o valor retornado pelo sistema será "500"kg.
+    When eu tento produzir o relatório total de resíduos cadastrados entre as datas "21/02/2017" e "24/03/2017" para o departamento de "Engenharia Química"
+    Then o valor retornado pelo sistema será "500"kg
 
   @c2
   Scenario: Produzir um relatório mensal para um Departamento / Laboratório / Resíduos  específico.
-    Given o sistema possui o "Departamento de Engenharia Química" cadastrado.
-    And o sistema possui "300" kg de residuos cadastrados entre entre as datas "21/02/2017" e "21/03/2017" para o "Departamento de Engenharia Química"
-    And o sistema possui "700" kg de resíduos cadastrados entre entre as datas "22/03/2017" e "23/03/2017" para o "Departamento de Engenharia Química"
-    When eu tento produzir o relatório total de resíduos cadastrados entre as datas  "21/02/2017" e "21/03/2017" para o "Departamento de Engenharia Química"
-    Then o valor retornado pelo sistema será de "300 kg"
+    Given o sistema possui o departamento de "Engenharia Química"cadastrado
+    And o sistema possui o laboratorio de "Processos Químicos" cadastrado no departamento de "Engenharia Química"
+    And o sistema possui "300" kg de residuos cadastrados entre entre as datas "21/02/2017" e "21/03/2017" para o laboratorio de "Processos Químicos"
+    And o sistema possui "700" kg de residuos cadastrados entre entre as datas "22/03/2017" e "24/03/2017" para o laboratorio de "Processos Químicos"
+    When eu tento produzir o relatório total de resíduos cadastrados entre as datas "21/02/2017" e "21/03/2017" para o departamento de "Engenharia Química"
+    Then o valor retornado pelo sistema será "300"kg
   @c3
   Scenario: Produzir relatório de resíduos por laboratório entre datas específicas.
     Given que eu estou na página "Geração de Relatórios"
