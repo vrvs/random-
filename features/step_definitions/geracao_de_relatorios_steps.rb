@@ -48,4 +48,31 @@ Given(/^o sistema possui "([^"]*)" kg de residuos cadastrados entre entre as dat
 
 end
 
+Given(/^o sistema possui o departamento de "([^"]*)" cadastrado com o resíduo "([^"]*)" com quantidade total de "([^"]*)"Kg$/) do |arg1, arg2, arg3|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^eu tento gerar um relatório dos resíduos do departamento de "([^"]*)", "([^"]*)" e "([^"]*)"$/) do |arg1, arg2, arg3|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^o sistema retorna o valor de "([^"]*)"Kg para o resíduo "([^"]*)"$/) do |arg1, arg2|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^o sistema  possui o laboratório de "([^"]*)" cadastrado com o resíduo "([^"]*)"$/) do |arg1, arg2|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^o resíduo "([^"]*)" possui tipo como "([^"]*)", peso como "([^"]*)"Kg e código ONU como "([^"]*)"$/) do |arg1, arg2, arg3, arg4|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^eu tento produzir um relatório dos resíduos do laboratório de "([^"]*)", com os filtros tipo e peso\.$/) do |arg1|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^o sistema retorna as informações "([^"]*)" e "([^"]*)"Kg\.$/) do |arg1, arg2|
+  pending # Write code here that turns the phrase above into concrete actions
+end
 

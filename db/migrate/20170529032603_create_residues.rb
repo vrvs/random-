@@ -7,6 +7,7 @@ class CreateResidues < ActiveRecord::Migration[5.0]
       t.string :onu
       t.string :code
       t.belongs_to :laboratory, index: true, foreign_key: true
+      t.belongs_to :collection, index: true, foreign_key: true
 
       t.timestamps
     end

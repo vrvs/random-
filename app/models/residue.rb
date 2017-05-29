@@ -6,5 +6,5 @@ class Residue < ApplicationRecord
     self.sum(:weight)
   end
   has_many :registers, dependent: :destroy
-  
+
 end
