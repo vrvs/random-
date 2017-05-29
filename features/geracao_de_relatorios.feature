@@ -3,7 +3,6 @@ Feature: Geração de Relatórios
   I want to gerar relatórios
   So that é possível fazer análise dos dados de modo mais simples.
   
-  
   @c1
   Scenario: Produzir um relatório do total de resíduo(s), por Laboratório / Departamento / Resíduos entre datas específicas
     Given o sistema possui o departamento de "Engenharia Química"cadastrado
@@ -41,7 +40,18 @@ Feature: Geração de Relatórios
     And vou para a página de resumo de sistema
     Then eu devo visualizar a quantidade de resíduos produzidos associado ao "Departamento de Engenharia Química" entre as datas  "21/02/2017" e  "21/03/2017"
 
-  #@c5
-  #@c6
-  #@c7
-  #@c8
+  @c5
+  Scenario: Produzir relatório de múltiplos Departamentos / Laboratórios / Resíduos
+    Given o sistema possui o departamento de "Anatomia Humana" cadastrado com o resíduo "Hidróxido de Amônio" com quantidade total de "150"Kg
+    And o sistema possui o departamento de "Biofísica Radiologia" cadastrado com o resíduo "Hidróxido de Amônio" com quantidade total de "25"Kg
+    And o sistema possui o departamento de "Botânica" cadastrado com o resíduo "Sulfato de Amônio" com quantidade total de "100"Kg
+    When eu tento gerar um relatório dos resíduos do departamento de "Anatomia Humana", "Biofísica Radiologia" e "Botânica"
+    Then o sistema retorna o valor de "175"Kg para o resíduo "Hidróxido de Amônio"
+    And o sistema retorna o valor de "100"Kg para o resíduo "Sulfato de Amônio"
+
+  @c6
+  Scenario: Produzir relatórios com filtros sobre Departamentos / Laboratórios
+    Given o sistema  possui o laboratório de "Planejamento Avaliação e Síntese de Fármacos" cadastrado com o resíduo "Ácido Clorídrico"
+    And o resíduo "Ácido Clorídrico" possui tipo como "Liquido Inorganico", peso como "300"Kg e código ONU como "2810"
+    When eu tento produzir um relatório dos resíduos do laboratório de "Planejamento Avaliação e Síntese de Fármacos", com os filtros tipo e peso.
+    Then o sistema retorna as informações "Liquido Inorganico" e "300"Kg.
