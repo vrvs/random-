@@ -42,10 +42,21 @@ Given(/^o sistema possui "([^"]*)" kg de residuos cadastrados entre entre as dat
 end
 
 Given(/^o sistema possui o departamento de "([^"]*)" cadastrado com o resíduo "([^"]*)" com quantidade total de "([^"]*)"Kg$/) do |arg1, arg2, arg3|
-  pending # Write code here that turns the phrase above into concrete actions
+  dep = Department.create(name: arg1)
+  lab = dep.laboratories.create(name: "lab_base: " + arg1)
+  res = lab.residues.create(name: arg2)
+  reg = res.registers.create(weight: arg3.to_f())
+  expect(dep).to_not be nil
+  expect(res).to_not be nil
+  expect(reg).to_not be nil
+  expect(reg.weight).to_not be eq(arg3.to_f())
 end
 
 When(/^eu tento gerar um relatório dos resíduos do departamento de "([^"]*)", "([^"]*)" e "([^"]*)"$/) do |arg1, arg2, arg3|
+  dep = Department.find_by(name: arg1)
+  Residue.all.each do |it|
+    p it
+  end
   pending # Write code here that turns the phrase above into concrete actions
 end
 
