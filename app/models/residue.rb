@@ -3,9 +3,8 @@ class Residue < ApplicationRecord
   belongs_to :collection
   has_many :registers, dependent: :destroy
 
-  def self.total
-    self.sum(:weight)
+  def total
+   self.registers.last.weight
   end
   
-
 end

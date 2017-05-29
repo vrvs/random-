@@ -5,4 +5,6 @@ class Register < ApplicationRecord
   belongs_to :collection
   
   validates :weight, presence: true
+
 end
+
