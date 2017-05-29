@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Weight:</strong>
+  <%= @register.weight %>
+</p>
+
+<p>
+  <strong>Department:</strong>
+  <%= @register.department %>
+</p>
+
+<p>
+  <strong>Laboratory:</strong>
+  <%= @register.laboratory %>
+</p>
+
+<p>
+  <strong>Residue:</strong>
+  <%= @register.residue %>
+</p>
+
+<p>
+  <strong>Collection:</strong>
+  <%= @register.collection %>
+</p>
+
+<%= link_to 'Edit', edit_register_path(@register) %> |
+<%= link_to 'Back', registers_path %>
