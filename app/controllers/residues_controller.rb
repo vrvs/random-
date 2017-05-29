@@ -69,6 +69,10 @@ class ResiduesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def residue_params
+<<<<<<< HEAD
       params.require(:residue).permit(:name, :string, :lab_name, :string, :weight, :integer, :type, :string)
+=======
+      params.require(:residue).permit(:name, :type, :blend, :onu, :code, :laboratory_id)
+>>>>>>> 3eabae6d504822de73998139fda6ae708c23e5d8
     end
 end

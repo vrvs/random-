@@ -59,6 +59,7 @@ class DepartmentsController < ApplicationController
       format.html { redirect_to departments_url, notice: 'Department was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -68,6 +69,6 @@ class DepartmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def department_params
-      params.require(:department).permit(:name, :string)
+      params.require(:department).permit(:name)
     end
 end
