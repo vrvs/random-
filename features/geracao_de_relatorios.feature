@@ -1,8 +1,9 @@
 Feature: Geração de Relatórios
   As a usuário Administrador
   I want to gerar relatórios
-  So that é possível fazer análise dos dados de modo mais simples
-
+  So that é possível fazer análise dos dados de modo mais simples.
+  
+  
   @c1
   Scenario: Produzir um relatório do total de resíduo(s), por Laboratório / Departamento / Resíduos entre datas específicas
     Given o sistema possui o departamento de "Engenharia Química"cadastrado
@@ -40,9 +41,7 @@ Feature: Geração de Relatórios
     And vou para a página de resumo de sistema
     Then eu devo visualizar a quantidade de resíduos produzidos associado ao "Departamento de Engenharia Química" entre as datas  "21/02/2017" e  "21/03/2017"
 
-
-
-
-
-
-
+  #@c5
+  #@c6
+  #@c7
+  #@c8
