@@ -30,6 +30,8 @@ class CollectionsController < ApplicationController
       if @collection.save
         format.html { redirect_to @collection, notice: 'Collection was successfully created.' }
         format.json { render :show, status: :created, location: @collection }
+        @collection.registers.create(weight:0)
+        @collection.save
       else
         format.html { render :new }
         format.json { render json: @collection.errors, status: :unprocessable_entity }
