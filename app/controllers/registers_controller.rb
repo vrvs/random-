@@ -65,7 +65,7 @@ class RegistersController < ApplicationController
   def update_weight
     if register_params[:residue_id] != nil then
       res = Residue.find(register_params[:residue_id])
-      res.registers.create(weight: res.registers.last.weight + register_params[:weight].to_f())
+      res.registers.create(weight: res.registers.last.weight + register_params[:weight].to_f(), created_at: register_params[:created_at])
     end
     if register_params[:laboratory_id] != nil then
       lab = Laboratory.find(register_params[:laboratory_id])

@@ -1,16 +1,11 @@
 @value_test = 0
 Given(/^o sistema possui o departamento de "([^"]*)"cadastrado$/) do |dep_name|
-  col = {collection: {max_value: 7500.0}}
-  post '/collections', col
-  col = Collection.last
-  expect(col).to_not be nil
-  
   dep = {department:{name: dep_name}}
   post '/departments', dep
   expect(dep).to_not be nil
 end
 
-<<<<<<< HEAD
+
 Given(/^o sistema possui o laboratorio de "([^"]*)" cadastrado no departamento de "([^"]*)"$/) do |lab_name, dep_name|
   dep = Department.find_by(name: dep_name)
   expect(dep).to_not be nil
@@ -18,20 +13,7 @@ Given(/^o sistema possui o laboratorio de "([^"]*)" cadastrado no departamento d
   post '/laboratories', lab
   lab = Laboratory.find_by(name: lab_name)
   expect(lab).to_not be nil
-  
-=======
-Given(/^o sistema possui o laboratorio de "([^"]*)" cadastrado no departamento de "([^"]*)"$/) do |arg1, arg2|
-  dep = {department: {name: arg2}}
-  post '/departments', dep
-  dep = Department.find_by(name: arg2)
-  expect(dep).to_not be nil
-  
-  lab = {laboratory: {name: arg1, department_id: dep.id}}
-  post '/laboratories', lab
-  lab = Laboratory.find_by(name: arg1, department_id: dep.id)
-  expect(lab).to_not be nil
->>>>>>> f5d840c594f41251db69b48ceb5f1275a5ca7d21
-end
+ end 
 
 Given(/^o sistema possui "([^"]*)"kg de residuos cadastrados no laboratório de "([^"]*)"$/) do |res_weight, lab_name|
   lab = Laboratory.find_by(name: lab_name)
@@ -40,9 +22,12 @@ Given(/^o sistema possui "([^"]*)"kg de residuos cadastrados no laboratório de 
   post '/residues', res
   res = Residue.find_by(name: "Acido")
   expect(res).to_not be nil
-  reg = {register: {weight: res_weight.to_f(), residue_id: res.id, created_at: '23/02/2017'.to_date}}
+  data = '23/02/2017'.to_date
+  reg = Register.create(weight: res_weight.to_f(), residue_id: res.id, created_at: data)
+  #reg = {register: {weight: res_weight.to_f(), residue_id: res.id, created_at: data}}
   post '/update_weight', reg
-  reg = res.registers.where(created_at: '23/02/2017'.to_date)
+  p reg
+  reg = res.registers.last
   p reg
   expect(reg).to_not be nil
   total = res.total
@@ -154,3 +139,4 @@ Then(/^o sistema retorna as informações "([^"]*)" e "([^"]*)"Kg para o resídu
   expect(total).to eq(arg2.to_f())
   expect(repc[0].kind).to eq (arg1)
 end
+

@@ -54,9 +54,4 @@ Feature: Geração de Relatórios
     Given o sistema possui o laboratorio de "Planejamento Avaliação e Síntese de Fármacos" cadastrado no departamento de "Engenharia Química"
     And o resíduo "Ácido Clorídrico" possui tipo como "Liquido Inorganico", peso como "300"Kg e código ONU como "2810" no laboratorio de "Planejamento Avaliação e Síntese de Fármacos"
     When eu tento produzir um relatório dos resíduos do laboratório de "Planejamento Avaliação e Síntese de Fármacos", com os filtros tipo e peso.
-<<<<<<< HEAD
-    Then o sistema retorna as informações "Liquido Inorganico" e "300"Kg.
-
-=======
     Then o sistema retorna as informações "Liquido Inorganico" e "300"Kg para o resíduo "Ácido Clorídrico"
->>>>>>> f5d840c594f41251db69b48ceb5f1275a5ca7d21
