@@ -6,11 +6,21 @@
   <thead>
     <tr>
       <th>Name</th>
+<<<<<<< HEAD
+      <th>String</th>
+      <th>Lab name</th>
+      <th>String</th>
+      <th>Weight</th>
+      <th>Integer</th>
+      <th>Type</th>
+      <th>String</th>
+=======
       <th>Type</th>
       <th>Blend</th>
       <th>Onu</th>
       <th>Code</th>
       <th>Laboratory</th>
+>>>>>>> 3eabae6d504822de73998139fda6ae708c23e5d8
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -19,11 +29,21 @@
     <% @residues.each do |residue| %>
       <tr>
         <td><%= residue.name %></td>
+<<<<<<< HEAD
+        <td><%= residue.string %></td>
+        <td><%= residue.lab_name %></td>
+        <td><%= residue.string %></td>
+        <td><%= residue.weight %></td>
+        <td><%= residue.integer %></td>
+        <td><%= residue.type %></td>
+        <td><%= residue.string %></td>
+=======
         <td><%= residue.type %></td>
         <td><%= residue.blend %></td>
         <td><%= residue.onu %></td>
         <td><%= residue.code %></td>
         <td><%= residue.laboratory %></td>
+>>>>>>> 3eabae6d504822de73998139fda6ae708c23e5d8
         <td><%= link_to 'Show', residue %></td>
         <td><%= link_to 'Edit', edit_residue_path(residue) %></td>
         <td><%= link_to 'Destroy', residue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
