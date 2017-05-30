@@ -63,13 +63,6 @@ class ResiduesController < ApplicationController
     end
   end
 
-  def total
-    total = 0
-    @Residue.all.each do |it|
-    total += it.registers.last.weight  
-  end
-end
-  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_residue
