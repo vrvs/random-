@@ -25,11 +25,12 @@ class ResiduesController < ApplicationController
   # POST /residues.json
   def create
     @residue = Residue.new(residue_params)
-
     respond_to do |format|
       if @residue.save
         format.html { redirect_to @residue, notice: 'Residue was successfully created.' }
         format.json { render :show, status: :created, location: @residue }
+        @residue.registers.create(weight:0)
+        @residue.save
       else
         format.html { render :new }
         format.json { render json: @residue.errors, status: :unprocessable_entity }
@@ -44,6 +45,7 @@ class ResiduesController < ApplicationController
       if @residue.update(residue_params)
         format.html { redirect_to @residue, notice: 'Residue was successfully updated.' }
         format.json { render :show, status: :ok, location: @residue }
+        
       else
         format.html { render :edit }
         format.json { render json: @residue.errors, status: :unprocessable_entity }
@@ -60,7 +62,7 @@ class ResiduesController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_residue
@@ -69,6 +71,6 @@ class ResiduesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def residue_params
-      params.require(:residue).permit(:name, :type, :blend, :onu, :code, :laboratory_id)
+      params.require(:residue).permit(:name, :type, :blend, :onu, :code, :laboratory_id, :collection_id)
     end
 end
