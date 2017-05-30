@@ -5,12 +5,12 @@ Feature: Produção Estatística de Dados
   
 @b1
 Scenario: Sistema calcula previsão de coleta baseado em resíduos cadastrados
-  Given existe "800"kg de residuos cadastrados no sistema
-  And a última coleta foi feita a "10" dias
-  And o limite de peso de resíduos é "7500" kg
+  Given existe "800" kg de residuos cadastrados no sistema
+  And a ultima coleta foi feita a "10" dias
+  And o limite de peso de residuos é "7500" kg
   When eu tento gerar a "Previsão de Notificação de Coleta"
   Then o sistema calcula a média de "80" kg/dia
-  And o sistema calcula que faltam "6300" kg para atingir o limite
+  And o sistema calcula que faltam "6700" kg para atingir o limite
   And o sistema calcula que faltam "84" dias para fazer a licitação
 
 @b2

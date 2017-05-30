@@ -1,66 +1,62 @@
 @collection = []
-Given(/^existe "([^"]*)"kg de residuos cadastrados no sistema$/) do |res_weight|
- 
- col = Collection.create()
- dept = Department.create(name: "Departamento de Genetica")
- lab = dept.laboratories.create(name: "Laboratorio de Genetica Aplicada")
- res = lab.residues.create(name: "Etanol")
- reg = res.registers.create(weight: res_weight)
+Given(/^existe "([^"]*)" kg de residuos cadastrados no sistema$/) do |res_weight|
+ col = {collection: {max_value: 0}}
+ post '/collections', col
+ col = Collection.find_by(max_value: 0)
+ expect(col).to_not be nil
+ dep = {department: {name: "Departamento de Genetica"}}
+ post '/departments', dep
+ dep = Department.find_by(name: "Departamento de Genetica")
+ expect(dep).to_not be nil
+ lab = {laboratory: {name: "Laboratorio de Genetica Aplicada", department_id: dep.id}}
+ post '/laboratories', lab
+ lab = Laboratory.find_by(name: "Laboratorio de Genetica Aplicada")
+ expect(lab).to_not be nil
+ res = {residue: {name: "Etanol", laboratory_id: lab.id}}
+ post '/residues', res
+ res = Residue.find_by(name: "Etanol")
+ expect(res).to_not be nil
+ reg = {register: {weight: res_weight.to_f(), residue_id: res.id}}
+ post '/registers', reg
  res.collection_id = col.id
  res.save
+ expect(reg).to_not be nil
  col.registers.create(weight: res_weight.to_f())
- #total = 0
- #collection.residue.each do |it|
- # tal = total + it.registers.last.weight
- #end
- #p total 
  expect(Department.find_by_name("Departamento de Genetica")).to_not be nil
 end
  
-Given(/^a última coleta foi feita a  "([^"]*)" dias$/) do |last_collection|
- @collection = Collection.all
- @collection[0].create_at -= 10
+Given(/^a ultima coleta foi feita a "([^"]*)" dias$/) do |last_collection|
+ @collection = Collection.last
+ @collection.created_at= (@collection.created_at.to_date - 10)
+ @collection.save
 end
  
-Given(/^o limite de peso de resíduos é  "([^"]*)"$/) do |limit_weight|
- @collection = Collection.all
- @collection[0].max_value=limit_weight
+Given(/^o limite de peso de residuos é "([^"]*)" kg$/) do |limit_weight|
+ @collection = Collection.last
+ @collection.max_value=limit_weight
+ @collection.save
 end
- 
-When(/^eu tento gerar a  "([^"]*)"$/) do |action|
+
+When(/^eu tento gerar a "([^"]*)"$/) do |action|
   if action == "Previsão de Notificação de Coleta"
       #Chama a rota ganerate_prediction_url que chama o controlador Collection e #action generate_prediction
-      post generate_prediction_url
+      post '/generate_prediction_url'
   end
 end
  
-Then(/^o sistema calcula a média de  "([^"]*)"$/) do |mean|
- assert f_mean == mean.to_f()
+Then(/^o sistema calcula a média de "([^"]*)" kg\/dia$/) do |mean|
+ @collection = Collection.last
+ expect(@collection.mean).to eq(mean.to_f())
 end
  
-Then(/^o sistema calcula que faltam  "([^"]*)" kg para atingir o limite$/) do |miss_weight|
-  assert miss_weight.to_f() == f_miss
+Then(/^o sistema calcula que faltam "([^"]*)" kg para atingir o limite$/) do |miss_weight|
+  expect(miss_weight.to_f()).to eq(@collection.miss_weight)
 end
  
-Then(/^o sistema calcula que faltam  "([^"]*)" para fazer a licitação$/) do |miss_days|
- miss = f_miss/f_mean
- assert miss_days.to_i()==miss
+Then(/^o sistema calcula que faltam "([^"]*)" dias para fazer a licitação$/) do |miss_days|
+ expect(miss_days.to_i()).to eq(@collection.miss_days)
 end
- 
-def f_mean
- @collection = Collection.all
- weight = @collection[0].total_weight
- time = @collection[0].last_collection
- test = weight/time
- return test
-end
- 
-def f_miss
- @collection = Collection.all
- weight = @collection[0].total_weight
- miss = @collection[0].limit_weight - weight
- return miss
-end
+
  
 def cad_col(col_name)
  param_col = {collection: {name: col_name}}

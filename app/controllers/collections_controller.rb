@@ -1,6 +1,6 @@
 class CollectionsController < ApplicationController
   before_action :set_collection, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /collections
   # GET /collections.json
   def index
@@ -23,9 +23,9 @@ class CollectionsController < ApplicationController
 
   # POST /collections
   # POST /collections.json
+
   def create
     @collection = Collection.new(collection_params)
-
     respond_to do |format|
       if @collection.save
         format.html { redirect_to @collection, notice: 'Collection was successfully created.' }
@@ -36,6 +36,7 @@ class CollectionsController < ApplicationController
       end
     end
   end
+
 
   # PATCH/PUT /collections/1
   # PATCH/PUT /collections/1.json
@@ -60,7 +61,23 @@ class CollectionsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  def generate_prediction
+    @collection = Collection.last
+    weight =  @collection.registers.last.weight
+    time = Date.today - @collection.created_at.to_date
+    mean = weight/time
+    weight = @collection.registers.last.weight
+    miss_weight = (@collection.max_value - weight)
+    miss_days = miss_weight/mean
+    miss_days = miss_days.ceil
+    @collection.mean=mean
+    @collection.miss_days = miss_days
+    @collection.miss_weight = miss_weight
+    @collection.save
+  end
+  
+  
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_collection

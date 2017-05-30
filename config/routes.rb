@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   resources :departments
   resources :registers
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  
+  post '/generate_prediction_url', to: 'collections#generate_prediction'
 end
