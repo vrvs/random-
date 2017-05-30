@@ -45,7 +45,7 @@ Feature: Geração de Relatórios
     Given o sistema possui o departamento de "Anatomia Humana" cadastrado com o resíduo "Hidróxido de Amônio" com quantidade total de "150"Kg
     And o sistema possui o departamento de "Biofísica Radiologia" cadastrado com o resíduo "Hidróxido de Amônio" com quantidade total de "25"Kg
     And o sistema possui o departamento de "Botânica" cadastrado com o resíduo "Sulfato de Amônio" com quantidade total de "100"Kg
-    When eu tento gerar um relatório dos resíduos do departamento de "Anatomia Humana", "Biofísica Radiologia" e "Botânica"
+    When eu tento gerar um relatório dos resíduos dos departamentos de "Anatomia Humana", "Biofísica Radiologia" e "Botânica"
     Then o sistema retorna o valor de "175"Kg para o resíduo "Hidróxido de Amônio"
     And o sistema retorna o valor de "100"Kg para o resíduo "Sulfato de Amônio"
 

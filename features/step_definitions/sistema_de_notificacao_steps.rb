@@ -1,18 +1,18 @@
-Given(/^o sistema possui o departamento "([^"]*)"$/) do |dep_name|
+Given(/^o sistema possui o departamento de "([^"]*)"$/) do |dep_name|
   dep_params = {department: {name: dep_name}}
   post '/departments', dep_params
   dep = Department.find_by(name: dep_name)
   expect(dep).to_not be nil
 end
 
-Given(/^o sistema possui o laboratório "([^"]*)"$/) do |lab_name|
+Given(/^o sistema possui o laboratório de "([^"]*)"$/) do |lab_name|
   lab_params = {laboratory: {name: lab_name}}
   post '/laboratories', lab_params
   lab = Laboratory.find_by(name: lab_name)
   expect(lab).to_not be nil
 end
 
-Given(/^o sistema possui o resíduo "([^"]*)" cadastrado no laboratorio "([^"]*)"$/) do |res_name, lab_name|
+Given(/^o sistema possui o resíduo "([^"]*)" cadastrado no laboratorio de "([^"]*)"$/) do |res_name, lab_name|
   lab = Laboratory.find_by(name: lab_name)
   expect(lab).to_not be nil
   res_params = {residue: {name: res_name, laboratory_id: lab.id}}
@@ -39,7 +39,7 @@ Given(/^o peso de resíduos total é "([^"]*)"kg$/) do |total_weight|
   expect(reg).to_not be nil
 end
 
-When(/^o usuário adiciona "([^"]*)"kg do resíduo "([^"]*)" no laboratorio "([^"]*)"$/) do |res_weight, res_name, lab_name|
+When(/^o usuário adiciona "([^"]*)"kg do resíduo "([^"]*)" no laboratorio de "([^"]*)"$/) do |res_weight, res_name, lab_name|
   lab = Laboratory.find_by(name: lab_name)
   expect(lab).to_not be nil
   res = Residue.find_by(name: res_name)

@@ -89,7 +89,7 @@ Given(/^o sistema possui o departamento de "([^"]*)" cadastrado com o resíduo "
   expect(reg.weight).to eq(res_total.to_f())
 end
 
-When(/^eu tento gerar um relatório dos resíduos do departamento de "([^"]*)", "([^"]*)" e "([^"]*)"$/) do |arg1, arg2, arg3|
+When(/^eu tento gerar um relatório dos resíduos dos departamentos de "([^"]*)", "([^"]*)" e "([^"]*)"$/) do |arg1, arg2, arg3|
   rep = {report: {generate_for: 1, begin_date: "01/01/2001".to_date, end_date: "29/12/2029".to_date, f_unit: false, f_state: false, f_kind: false, f_onu: false, f_blend: false, f_code: false, f_total: true}}
   post '/reports', rep
   repc = {reportcell: {dep_name: arg1}}
