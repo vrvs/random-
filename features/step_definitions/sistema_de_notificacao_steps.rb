@@ -30,13 +30,26 @@ Given(/^o peso limitante do sistema é "([^"]*)"kg$/) do |max_weight|
 end
 
 Given(/^o peso de resíduos total é "([^"]*)"kg$/) do |total_weight|
-  collect = Collection.last
-  expect(collect).to_not be nil
-  reg = Register.create(weight: total_weight)
+  col = Collection.last
+  expect(col).to_not be nil
+  
+  reg = {register: {weight: total_weight, collection_id: col.id}}
+  post '/registers', reg
+  reg = Collection.last.registers.last
+  expect(reg).to_not be nil
 end
 
 When(/^o usuário adiciona "([^"]*)"kg do resíduo "([^"]*)" no laboratorio "([^"]*)"$/) do |res_weight, res_name, lab_name|
-  pending # Write code here that turns the phrase above into concrete actions
+  lab = Laboratory.find_by(name: lab_name)
+  expect(lab).to_not be nil
+  res = Residue.find_by(name: res_name)
+  expect(res).to_not be nil
+  
+  reg = {register: {weight: res_weight, residue_id: res.id}}
+  post '/update_weight', reg
+  reg = res.registers.last
+  expect(reg).to_not be nil
+  
 end
 
 Then(/^o sistema verifica que o peso total é maior ou igual ao limite mínimo$/) do
