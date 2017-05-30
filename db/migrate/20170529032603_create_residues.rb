@@ -2,7 +2,7 @@ class CreateResidues < ActiveRecord::Migration[5.0]
   def change
     create_table :residues do |t|
       t.string :name
-      t.string :type
+      t.string :kind
       t.string :blend
       t.string :onu
       t.string :code
