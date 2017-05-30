@@ -13,7 +13,6 @@ Feature: Sistema de Notificação
         When o usuário adiciona "900"kg do resíduo "Cloreto de Potassio" no laboratorio "Laboratorio de Fisica1"
         Then o sistema verifica que o peso total é maior ou igual ao limite mínimo
         And o sistema gera uma notificação de limite máximo atingido
-        And ela é enviada para o administrador
     
     @a2
     Scenario: O peso da quantidade de resíduos já cadastrados no sistema é maior ou igual que o limite mínimo para emitir um alerta
@@ -25,7 +24,6 @@ Feature: Sistema de Notificação
         When o usuário adiciona "500"kg do resíduo "Acido Cloridrico" no laboratorio "Laboratorio de Quimica1"
         Then o sistema verifica que o peso total é maior que o limite mínimo para emitir um alerta
         And o sistema gera uma notificação de alerta de peso próximo ao limite máximo para fazer uma licitação
-        And ela é enviada para o administrador 
     
     @a3
     Scenario: Ver a notificação que a quantidade de resíduos está perto do peso mínimo para fazer a licitação

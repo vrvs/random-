@@ -23,7 +23,7 @@ Given(/^o sistema possui o resíduo "([^"]*)" cadastrado no laboratorio "([^"]*)
 end
 
 Given(/^o peso limitante do sistema é "([^"]*)"kg$/) do |max_weight|
-  col = {collection: {max_value: max_weight}}
+  col = {collection: {max_value: max_weight.to_f()}}
   post '/collections', col
   col = Collection.last
   expect(col).to_not be nil
@@ -33,7 +33,7 @@ Given(/^o peso de resíduos total é "([^"]*)"kg$/) do |total_weight|
   col = Collection.last
   expect(col).to_not be nil
   
-  reg = {register: {weight: total_weight, collection_id: col.id}}
+  reg = {register: {weight: total_weight.to_f(), collection_id: col.id}}
   post '/registers', reg
   reg = Collection.last.registers.last
   expect(reg).to_not be nil
@@ -44,8 +44,11 @@ When(/^o usuário adiciona "([^"]*)"kg do resíduo "([^"]*)" no laboratorio "([^
   expect(lab).to_not be nil
   res = Residue.find_by(name: res_name)
   expect(res).to_not be nil
+  col = Collection.last
+  expect(col).to_not be nil
+
   
-  reg = {register: {weight: res_weight, residue_id: res.id}}
+  reg = {register: {weight: res_weight.to_f(), residue_id: res.id, collection_id: col.id}}
   post '/update_weight', reg
   reg = res.registers.last
   expect(reg).to_not be nil
@@ -53,15 +56,16 @@ When(/^o usuário adiciona "([^"]*)"kg do resíduo "([^"]*)" no laboratorio "([^
 end
 
 Then(/^o sistema verifica que o peso total é maior ou igual ao limite mínimo$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  col = Collection.last
+  expect(col).to_not be nil
+  reg = col.registers.last
+  expect(reg).to_not be nil
+  
+  expect(reg.weight).to be >= col.max_value
 end
 
 Then(/^o sistema gera uma notificação de limite máximo atingido$/) do
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
-Then(/^ela é enviada para o administrador$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  post '/generate_notification'
 end
 
 Given(/^o peso mínimo para afirmar que está próximo do limitante é de "([^"]*)"kg$/) do |max_close_weight|
