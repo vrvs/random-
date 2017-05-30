@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170529034305) do
+ActiveRecord::Schema.define(version: 20170530115704) do
 
   create_table "collections", force: :cascade do |t|
     t.float    "max_value"
@@ -41,12 +41,48 @@ ActiveRecord::Schema.define(version: 20170529034305) do
     t.integer  "laboratory_id"
     t.integer  "residue_id"
     t.integer  "collection_id"
+    t.integer  "report_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.index ["collection_id"], name: "index_registers_on_collection_id"
     t.index ["department_id"], name: "index_registers_on_department_id"
     t.index ["laboratory_id"], name: "index_registers_on_laboratory_id"
+    t.index ["report_id"], name: "index_registers_on_report_id"
     t.index ["residue_id"], name: "index_registers_on_residue_id"
+  end
+
+  create_table "reportcells", force: :cascade do |t|
+    t.string   "dep_name"
+    t.string   "lab_name"
+    t.string   "res_name"
+    t.string   "kind"
+    t.float    "total"
+    t.string   "onu"
+    t.string   "state"
+    t.string   "blend"
+    t.string   "code"
+    t.string   "unit"
+    t.integer  "report_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["report_id"], name: "index_reportcells_on_report_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.integer  "generate_for"
+    t.date     "begin_date"
+    t.date     "end_date"
+    t.boolean  "f_unit"
+    t.boolean  "f_state"
+    t.boolean  "f_kind"
+    t.boolean  "f_onu"
+    t.boolean  "f_blend"
+    t.boolean  "f_code"
+    t.boolean  "f_total"
+    t.integer  "collection_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["collection_id"], name: "index_reports_on_collection_id"
   end
 
   create_table "requests", force: :cascade do |t|
@@ -60,7 +96,7 @@ ActiveRecord::Schema.define(version: 20170529034305) do
 
   create_table "residues", force: :cascade do |t|
     t.string   "name"
-    t.string   "type"
+    t.string   "kind"
     t.string   "blend"
     t.string   "onu"
     t.string   "code"
@@ -88,7 +124,7 @@ ActiveRecord::Schema.define(version: 20170529034305) do
     t.string   "country"
     t.string   "phone"
     t.string   "cell_phone"
-    t.string   "type"
+    t.string   "kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

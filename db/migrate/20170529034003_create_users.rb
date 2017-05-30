@@ -16,7 +16,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :country
       t.string :phone
       t.string :cell_phone
-      t.string :type
+      t.string :kind
 
       t.timestamps
     end

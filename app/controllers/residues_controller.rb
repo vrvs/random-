@@ -78,7 +78,7 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def residue_params
-      params.require(:residue).permit(:name, :type, :blend, :onu, :code, :laboratory_id, :collection_id)
+      params.require(:residue).permit(:name, :kind, :blend, :onu, :code, :laboratory_id, :collection_id)
     end
 
 end

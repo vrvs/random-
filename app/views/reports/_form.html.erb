@@ -1,0 +1,72 @@
+<%= form_for(report) do |f| %>
+  <% if report.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(report.errors.count, "error") %> prohibited this report from being saved:</h2>
+
+      <ul>
+      <% report.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :generate_for %>
+    <%= f.number_field :generate_for %>
+  </div>
+
+  <div class="field">
+    <%= f.label :begin_date %>
+    <%= f.date_select :begin_date %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_date %>
+    <%= f.date_select :end_date %>
+  </div>
+
+  <div class="field">
+    <%= f.label :f_unit %>
+    <%= f.check_box :f_unit %>
+  </div>
+
+  <div class="field">
+    <%= f.label :f_state %>
+    <%= f.check_box :f_state %>
+  </div>
+
+  <div class="field">
+    <%= f.label :f_kind %>
+    <%= f.check_box :f_kind %>
+  </div>
+
+  <div class="field">
+    <%= f.label :f_onu %>
+    <%= f.check_box :f_onu %>
+  </div>
+
+  <div class="field">
+    <%= f.label :f_blend %>
+    <%= f.check_box :f_blend %>
+  </div>
+
+  <div class="field">
+    <%= f.label :f_code %>
+    <%= f.check_box :f_code %>
+  </div>
+
+  <div class="field">
+    <%= f.label :f_total %>
+    <%= f.text_field :f_total %>
+  </div>
+
+  <div class="field">
+    <%= f.label :collection_id %>
+    <%= f.text_field :collection_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
