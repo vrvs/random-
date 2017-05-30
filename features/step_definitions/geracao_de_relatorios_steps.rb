@@ -27,8 +27,11 @@ Given(/^o sistema possui "([^"]*)"kg de residuos cadastrados no laboratório de 
   reg = res.registers.last
   reg.created_at =  data1
   reg.save
-  reg = {register: {weight: res_weight.to_f(), residue_id: res.id, created_at: data}}
+  reg = {register: {weight: res_weight.to_f(), residue_id: res.id}}
   post '/update_weight', reg
+   reg = res.registers.last
+  reg.created_at =  data
+  reg.save
   expect(reg).to_not be nil
   total = res.total
   expect(total).to eq(res_weight.to_f())

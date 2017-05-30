@@ -65,7 +65,7 @@ class RegistersController < ApplicationController
   def update_weight
     if register_params[:residue_id] != nil then
       res = Residue.find(register_params[:residue_id])
-      res.registers.create(weight: res.registers.last.weight + register_params[:weight].to_f(), created_at: register_params[:created_at])
+      res.registers.create(weight: res.registers.last.weight + register_params[:weight].to_f())
     end
     if register_params[:laboratory_id] != nil then
       lab = Laboratory.find(register_params[:laboratory_id])
@@ -89,6 +89,6 @@ class RegistersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def register_params
-      params.require(:register).permit(:weight, :department_id, :laboratory_id, :residue_id, :collection_id, :report_id, :created_at)
+      params.require(:register).permit(:weight, :department_id, :laboratory_id, :residue_id, :collection_id, :report_id)
     end
 end
