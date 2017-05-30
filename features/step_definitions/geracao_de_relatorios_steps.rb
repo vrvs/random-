@@ -138,4 +138,3 @@ Then(/^o sistema retorna as informações "([^"]*)" e "([^"]*)"Kg para o resídu
   expect(total).to eq(arg2.to_f())
   expect(repc[0].kind).to eq (arg1)
 end
-
