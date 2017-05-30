@@ -1,17 +1,16 @@
-Given(/^o sistema possui o departamento de "([^"]*)"cadastrado$/) do |dep_name|
-  Department.create(name: dep_name)
-  expect(Department.find_by_name(dep_name)).to_not be nil
+Given(/^o sistema possui o departamento de "([^"]*)" cadastrado$/) do |dep_name|
+  dep = {department: {name: dep_name}}
+  post '/departments', dep
+  dep = Department.find_by(name: dep_name)
+  expect(dep).to_not be nil
 end
 
-Given(/^o sistema possui o laboratorio de "([^"]*)" cadastrado no departamento de "([^"]*)"$/) do |arg1, arg2|
-  dep = {department: {name: arg2}}
-  post '/departments', dep
-  dep = Department.find_by(name: arg2)
+Given(/^o sistema possui o laboratorio de "([^"]*)" cadastrado no departamento de "([^"]*)"$/) do |lab_name, dep_name|
+  dep = Department.find_by(name: dep_name)
   expect(dep).to_not be nil
-  
-  lab = {laboratory: {name: arg1, department_id: dep.id}}
+  lab = {laboratory: {name: lab_name, department_id: dep.id}}
   post '/laboratories', lab
-  lab = Laboratory.find_by(name: arg1, department_id: dep.id)
+  lab = Laboratory.find_by(name: lab_name, department_id: dep.id)
   expect(lab).to_not be nil
 end
 
@@ -43,26 +42,26 @@ Given(/^o sistema possui "([^"]*)" kg de residuos cadastrados entre entre as dat
   p res.total.eql?(res_weight)
 end
 
-Given(/^o sistema possui o departamento de "([^"]*)" cadastrado com o resíduo "([^"]*)" com quantidade total de "([^"]*)"Kg$/) do |arg1, arg2, arg3|
-  dep = {department: {name: arg1}}
+Given(/^o sistema possui o departamento de "([^"]*)" cadastrado com o resíduo "([^"]*)" com quantidade total de "([^"]*)"Kg$/) do |dep_name, res_name, res_total|
+  dep = {department: {name: dep_name}}
   post '/departments', dep
-  dep = Department.find_by(name: arg1)
+  dep = Department.find_by(name: dep_name)
   expect(dep).to_not be nil
   
-  lab = {laboratory: {name: "lab_base: " + arg1, department_id: dep.id}}
+  lab = {laboratory: {name: "lab_base: " + dep_name, department_id: dep.id}}
   post '/laboratories', lab
-  lab = Laboratory.find_by(name: "lab_base: " + arg1, department_id: dep.id)
+  lab = Laboratory.find_by(name: "lab_base: " + dep_name, department_id: dep.id)
   expect(lab).to_not be nil
   
-  res = {residue: {name: arg2, laboratory_id: lab.id}}
+  res = {residue: {name: res_name, laboratory_id: lab.id}}
   post '/residues', res
-  res = Residue.find_by(name: arg2, laboratory_id: lab.id)
+  res = Residue.find_by(name: res_name, laboratory_id: lab.id)
   expect(res).to_not be nil
   
-  reg = {register: {weight: arg3, residue_id: res.id, departement_id: dep.id, laboratory_id: lab.id}}
+  reg = {register: {weight: res_total, residue_id: res.id, departement_id: dep.id, laboratory_id: lab.id}}
   post '/update_weight', reg
   reg = res.registers.last
-  expect(reg.weight).to eq(arg3.to_f())
+  expect(reg.weight).to eq(res_total.to_f())
 end
 
 When(/^eu tento gerar um relatório dos resíduos do departamento de "([^"]*)", "([^"]*)" e "([^"]*)"$/) do |arg1, arg2, arg3|
@@ -92,7 +91,6 @@ Given(/^o resíduo "([^"]*)" possui tipo como "([^"]*)", peso como "([^"]*)"Kg e
   post '/residues', res
   res = Residue.find_by(name: arg1, laboratory_id: lab.id)
   expect(res).to_not be nil
-  
   reg = {register: {weight: arg3, residue_id: res.id, department_id: lab.department_id, laboratory_id: lab.id}}
   post '/update_weight', reg
   reg = res.registers.last

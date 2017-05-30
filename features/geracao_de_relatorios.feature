@@ -5,7 +5,7 @@ Feature: Geração de Relatórios
   
   @c1
   Scenario: Produzir um relatório do total de resíduo(s), por Laboratório / Departamento / Resíduos entre datas específicas
-    Given o sistema possui o departamento de "Engenharia Química"cadastrado
+    Given o sistema possui o departamento de "Engenharia Química" cadastrado
     And o sistema possui o laboratorio de "Processos Químicos" cadastrado no departamento de "Engenharia Química"
     And o sistema possui "500"kg de residuos cadastrados no laboratório de "Processos Químicos"
     When eu tento produzir o relatório total de resíduos cadastrados entre as datas "21/02/2017" e "24/03/2017" para o departamento de "Engenharia Química"
@@ -13,7 +13,7 @@ Feature: Geração de Relatórios
 
   @c2
   Scenario: Produzir um relatório mensal para um Departamento / Laboratório / Resíduos  específico.
-    Given o sistema possui o departamento de "Engenharia Química"cadastrado
+    Given o sistema possui o departamento de "Engenharia Química" cadastrado
     And o sistema possui o laboratorio de "Processos Químicos" cadastrado no departamento de "Engenharia Química"
     And o sistema possui "300" kg de residuos cadastrados entre entre as datas "21/02/2017" e "21/03/2017" para o laboratorio de "Processos Químicos"
     And o sistema possui "700" kg de residuos cadastrados entre entre as datas "22/03/2017" e "24/03/2017" para o laboratorio de "Processos Químicos"
@@ -51,7 +51,8 @@ Feature: Geração de Relatórios
 
   @c6
   Scenario: Produzir relatórios com filtros sobre Departamentos / Laboratórios
-    Given o sistema possui o laboratorio de "Planejamento Avaliação e Síntese de Fármacos" cadastrado no departamento de "Engenharia Química"
+    Given o sistema possui o departamento de "Engenharia Química" cadastrado
+    And o sistema possui o laboratorio de "Planejamento Avaliação e Síntese de Fármacos" cadastrado no departamento de "Engenharia Química"
     And o resíduo "Ácido Clorídrico" possui tipo como "Liquido Inorganico", peso como "300"Kg e código ONU como "2810" no laboratorio de "Planejamento Avaliação e Síntese de Fármacos"
     When eu tento produzir um relatório dos resíduos do laboratório de "Planejamento Avaliação e Síntese de Fármacos", com os filtros tipo e peso.
     Then o sistema retorna as informações "Liquido Inorganico" e "300"Kg para o resíduo "Ácido Clorídrico"
