@@ -1,53 +1,65 @@
+@value_test = 0
 Given(/^o sistema possui o departamento de "([^"]*)"cadastrado$/) do |dep_name|
-  Department.create(name: dep_name)
-  expect(Department.find_by_name(dep_name)).to_not be nil
+  dep = {department:{name: dep_name}}
+  post '/departments', dep
+  
+  expect(dep).to_not be nil
 end
 
 Given(/^o sistema possui o laboratorio de "([^"]*)" cadastrado no departamento de "([^"]*)"$/) do |lab_name, dep_name|
   dep = Department.find_by(name: dep_name)
   expect(dep).to_not be nil
-  dep.laboratories.create(name: lab_name)
-  expect(Laboratory.find_by(name: lab_name)).to_not be nil
+  lab = {laboratory:{name: lab_name, department_id: lab.id}}
+  post '/laboratories', lab
+  expect(lab).to_not be 
+  
 end
 
 Given(/^o sistema possui "([^"]*)"kg de residuos cadastrados no laboratório de "([^"]*)"$/) do |res_weight, lab_name|
   lab = Laboratory.find_by(name: lab_name)
   expect(lab).to_not be nil
-  res = lab.residues.create(name: "Acido")
-  reg = res.registers.create(weight: res_weight.to_f(),created_at: '23/02/2017'.to_date)
+  res = {residue:{name: "Acido", laboratory_id: lab.id}}
+  post '/residues', res
+  expect(res).to_not be nil
+  reg = {register: {weight: res_weight.to_f(), created_at: '23/02/2017'.to_date}}
+  post 'update_weight', reg
   expect(reg).to_not be nil
   total = res.total
-  total.eql?(res_weight)
-
+  expect(total).to eq(res_weight.to_f())
 end
 
 
 When(/^eu tento produzir o relatório total de resíduos cadastrados entre as datas "([^"]*)" e "([^"]*)" para o departamento de "([^"]*)"$/) do |data_begin, data_final, dep_name|
   residues_total_in_data = 0
   expect(Department.find_by(name: dep_name)).to_not be nil
-  Residue.all.each do |it|
-    rList = it.registers.where(created_at: [data_begin.to_date..data_final.to_date])
-   p rList.first.weight
+
+Residue.all.each do |it|
+  rList = it.registers.where(created_at: [data_begin.to_date..data_final.to_date])
+  expect(rList).to_not be nil
    residues_total_in_data = residues_total_in_data + (rList.last.weight - rList.first.weight)
   end
-  p residues_total_in_data
+  @value_test = residues_total_in_data
 
 end
 
 Then(/^o valor retornado pelo sistema será "([^"]*)"kg$/) do |res_weight|
-  @print.eql?(res_weight)
- # p @print
+  expect(@value_test).to eq(res_weight.to_f())
 end
 
 Given(/^o sistema possui "([^"]*)" kg de residuos cadastrados entre entre as datas "([^"]*)" e "([^"]*)" para o laboratorio de "([^"]*)"$/) do |res_weight, data_begin, data_final, lab_name|
-	expect(Laboratory.find_by_name(lab_name)).to_not be nil
-	Residue.create(name: "Acido", lab_name: lab_name, weight: res_weight, created_at: data_begin.to_date)
+  lab = Laboratory.find_by(name: lab_name)
+	expect(lab).to_not be nil
+	res = {residue: {name:"Acido", laboratory_id: lab.id}}
+	post '/residues', res
+	expect(res).to_not be nil
+	reg = res.registers.create(weight: 0, created_at: '20/02/2017'.to_date)
+	reg = res.registers.create(weight: res_weight, created_at: data_begin.to_date)
 	res = Residue.where(created_at: [data_begin.to_date..data_final.to_date])
   expect(res).to_not be nil
   p res.total.eql?(res_weight)
 
 end
-
+#######################################################FIM RODRIGO######################################################################################################################################
 Given(/^o sistema possui o departamento de "([^"]*)" cadastrado com o resíduo "([^"]*)" com quantidade total de "([^"]*)"Kg$/) do |arg1, arg2, arg3|
   dep = Department.create(name: arg1)
   lab = dep.laboratories.create(name: "lab_base: " + arg1)

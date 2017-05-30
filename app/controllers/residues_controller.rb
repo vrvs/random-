@@ -61,11 +61,11 @@ class ResiduesController < ApplicationController
     end
   end
 
-    def total
-      total = 0
-      @residues.each do |it|
-      total += it.last.weight  
-      end
+  def total
+    total = 0
+    @Residue.all.each do |it|
+    total += it.registers.last.weight  
+    end
   end
   
   private
