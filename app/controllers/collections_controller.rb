@@ -78,7 +78,32 @@ class CollectionsController < ApplicationController
     @collection.save
   end
   
-  
+  def type_residue
+    @collection = Collection.last
+    @collection.solido_organico = 0.0
+    @collection.solido_inorganico = 0.0
+    @collection.liquido_organico = 0.0
+    @collection.liquido_inorganico = 0.0
+    @collection.liquido_inflamavel = 0.0
+    @collection.outros  = 0.0
+    Residue.all.each do |it|
+      case it.kind
+      when "Sólido Orgânico"
+        @collection.solido_organico += it.registers.last.weight
+      when "Sólido Inorgânico"
+        @collection.solido_inorganico += it.registers.last.weight
+      when "Líquido Orgânico"
+        @collection.liquido_organico += it.registers.last.weight
+      when "Líquido Inorgânico"
+        @collection.liquido_inorganico += it.registers.last.weight
+      when "Líquido Inflamável"
+        @collection.liquido_inflamavel += it.registers.last.weight
+      when "Outros"
+        @collection.outros += it.registers.last.weight
+      end
+      @collection.save
+    end
+  end
   
   private
     # Use callbacks to share common setup or constraints between actions.

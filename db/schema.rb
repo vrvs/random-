@@ -18,8 +18,14 @@ ActiveRecord::Schema.define(version: 20170529034305) do
     t.float    "mean"
     t.float    "miss_weight"
     t.integer  "miss_days"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.float    "solido_organico"
+    t.float    "solido_inorganico"
+    t.float    "liquido_organico"
+    t.float    "liquido_inorganico"
+    t.float    "liquido_inflamavel"
+    t.float    "outros"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -63,7 +69,7 @@ ActiveRecord::Schema.define(version: 20170529034305) do
 
   create_table "residues", force: :cascade do |t|
     t.string   "name"
-    t.string   "type"
+    t.string   "kind"
     t.string   "blend"
     t.string   "onu"
     t.string   "code"

@@ -1,28 +1,15 @@
 @collection = []
 Given(/^existe "([^"]*)" kg de residuos cadastrados no sistema$/) do |res_weight|
- col = {collection: {max_value: 0}}
- post '/collections', col
- col = Collection.find_by(max_value: 0)
+ col = cad_col(0)
  expect(col).to_not be nil
- dep = {department: {name: "Departamento de Genetica"}}
- post '/departments', dep
- dep = Department.find_by(name: "Departamento de Genetica")
+ dep = cad_dep("Departamento de Genetica")
  expect(dep).to_not be nil
- lab = {laboratory: {name: "Laboratorio de Genetica Aplicada", department_id: dep.id}}
- post '/laboratories', lab
- lab = Laboratory.find_by(name: "Laboratorio de Genetica Aplicada")
+ lab = cad_lab("Laboratorio de Genetica Aplicada", dep.id)
  expect(lab).to_not be nil
- res = {residue: {name: "Etanol", laboratory_id: lab.id}}
- post '/residues', res
- res = Residue.find_by(name: "Etanol")
+ res = cad_res("Etanol",lab.id,"Líquido Inflamável")
  expect(res).to_not be nil
- reg = {register: {weight: res_weight.to_f(), residue_id: res.id}}
- post '/registers', reg
- res.collection_id = col.id
- res.save
+ reg = cad_reg(res_weight.to_f(),res.id,col.id)
  expect(reg).to_not be nil
- col.registers.create(weight: res_weight.to_f())
- expect(Department.find_by_name("Departamento de Genetica")).to_not be nil
 end
  
 Given(/^a ultima coleta foi feita a "([^"]*)" dias$/) do |last_collection|
@@ -57,49 +44,81 @@ Then(/^o sistema calcula que faltam "([^"]*)" dias para fazer a licitação$/) d
  expect(miss_days.to_i()).to eq(@collection.miss_days)
 end
 
- 
-def cad_col(col_name)
- param_col = {collection: {name: col_name}}
- post '/collections', param_col
- assert !Collection.where(name: col_name).empty?
+def cad_col(max_value)
+ col = {collection: {max_value: max_value}}
+ post '/collections', col
+ return Collection.find_by(max_value: max_value)
 end
  
 def cad_dep(dep_name)
- param_dep = {departament: {name: dep_name}}
- post '/departaments', param_dep
- assert !Department.where(name: dep_name).empty?
+ dep = {department: {name: dep_name}}
+ post '/departments', dep
+ return Department.find_by(name: dep_name)
 end
  
-def cad_lab(lab_name, dep_name, fac_name)
- param_lab = {laboratory: {name: lab_name, department: dep_name, facilitator: fac_name}}
- post '/laboratories', param_lab
- assert !Laboratory.where(name: lab_name).empty?
+def cad_lab(lab_name, dep_id)
+ lab = {laboratory: {name: lab_name, department_id: dep_id}}
+ post '/laboratories', lab
+ return Laboratory.find_by(name: lab_name)
 end
  
-def cad_res(res_name, lab_name, res_weight, res_type,col_name)
- param_res = {residue: {name: res_name, laboratory: lab_name, weight: res_weight, type: res_type, collection: col_name}}
- post '/residues', param_res
- assert !Residue.where(name: res_name).empty?
- assert !Residue.where(name: res_weight).empty?
+def cad_res(res_name, lab_id,res_type)
+ res = {residue: {name: res_name, kind: res_type, laboratory_id: lab_id}}
+ post '/residues', res
+ return Residue.find_by(name: res_name)
+end
+
+def cad_reg(weight, res_id, col_id)
+ reg = {register: {weight: weight.to_f(), residue_id: res_id, collection_id: col_id}}
+ post '/update_weight', reg
+ return Register.find_by(weight: weight.to_f())
 end
 
 Given(/^existe "([^"]*)" kg de "([^"]*)" de tipo "([^"]*)" cadastrado no sistema$/) do |res_weight, res_name, res_type|
- 
-  cad_col("UFPE")
-  cad_dep("Departamento de Genetica")
-  cad_lab("Laboratorio de Genetica Aplicada","Departamento de Genetica","Jose de Abreu")
-  cad_res(res_name,"Laboratorio de Genetica Aplicada",res_weight.to_f(),res_type,"UFPE")
+ col = cad_col(0)
+ expect(col).to_not be nil
+ dep = cad_dep("Departamento de Genetica")
+ expect(dep).to_not be nil
+ lab = cad_lab("Laboratorio de Genetica Aplicada", dep.id)
+ expect(lab).to_not be nil
+ res = cad_res(res_name,lab.id,res_type)
+ expect(res).to_not be nil
+ reg = cad_reg(res_weight.to_f(),res.id,col.id)
+ expect(reg).to_not be nil
  
 end
  
 When(/^eu tento gerar o "([^"]*)"$/) do |action|
  if action == "Total de Resíduos Acumulados por Tipo"
      #Chama a rota type_residue_url que chama o controlador Collection e #action type_residue
-     post type_residue_url
+     post 'type_residue_url'
  end
 end
- 
-Then(/^o sistema calcula o  "([^"]*)" com "([^"]*)" de substâncias do tipo "([^"]*)" e "([^"]*)" de substâncias do tipo "([^"]*)"$/) do |action,res_weight1,res_type1,res_weight2,res_type2|
-  assert res_weight1.to_f() == Collection.total_type_residue(res_type1)
-  assert res_weight2.to_f() == Collection.total_type_residue(res_type2)
+
+Then(/^o sistema calcula o  "([^"]*)" com "([^"]*)" kg de substâncias de tipo "([^"]*)" e "([^"]*)" kg de substâncias de tipo "([^"]*)"$/) do |action,res_weight1,res_type1,res_weight2,res_type2|
+ if action == "Total de Resíduos Acumulados por Tipo"
+  validate(res_type1, res_weight1)
+  validate(res_type2, res_weight2)
+ end
 end
+
+def validate(res_type, res_weight)
+ 
+ @collection = Collection.last
+ case res_type
+ when "Sólido Orgânico"
+  expect(@collection.solido_organico).to eq(res_weight.to_f())
+ when "Sólido Inorgânico"
+  expect(@collection.solido_inorganico).to eq(res_weight.to_f())
+ when "Líquido Orgânico"
+  expect(@collection.liquido_organico).to eq(res_weight.to_f())
+ when "Líquido Inorgânico"
+  expect(@collection.liquido_inorganico).to eq(res_weight.to_f())
+ when "Líquido Inflamável"
+  expect(@collection.liquido_inflamavel).to eq(res_weight.to_f())
+ when "Outros"
+  expect(@collection.outros).to eq(res_weight.to_f())
+ end
+ 
+end
+
