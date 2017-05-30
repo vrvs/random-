@@ -29,9 +29,9 @@ Given(/^o sistema possui "([^"]*)"kg de residuos cadastrados no laboratório de 
   expect(res).to_not be nil
   reg = {register: {weight: res_weight.to_f(), residue_id: res.id, created_at: '23/02/2017'.to_date}}
   post '/update_weight', reg
-  reg = res.registers.last
+  reg = res.registers.where(created_at: '23/02/2017'.to_date)
   p reg
- # expect(reg).to_not be nil
+  expect(reg).to_not be nil
   total = res.total
   expect(total).to eq(res_weight.to_f())
 end
@@ -43,6 +43,7 @@ When(/^eu tento produzir o relatório total de resíduos cadastrados entre as da
 
 Residue.all.each do |it|
   rList = it.registers.where(created_at: [data_begin.to_date..data_final.to_date])
+  p rList
   expect(rList).to_not be nil
    residues_total_in_data = residues_total_in_data + (rList.last.weight - rList.first.weight)
   end

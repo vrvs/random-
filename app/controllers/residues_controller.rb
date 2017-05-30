@@ -80,12 +80,5 @@ end
     def residue_params
       params.require(:residue).permit(:name, :type, :blend, :onu, :code, :laboratory_id, :collection_id)
     end
-<<<<<<< HEAD
-    
-    def register_params
-      params.require(:register).permit(:weight, :department_id, :laboratory_id, :residue_id, :collection_id)
-    end
-    
-=======
->>>>>>> 4d7117e9d3448c11b14a32ebd182917105e2eb21
+
 end
