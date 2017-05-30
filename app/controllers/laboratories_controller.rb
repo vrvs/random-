@@ -30,6 +30,8 @@ class LaboratoriesController < ApplicationController
       if @laboratory.save
         format.html { redirect_to @laboratory, notice: 'Laboratory was successfully created.' }
         format.json { render :show, status: :created, location: @laboratory }
+        @laboratory.registers.create(weight:0)
+        @laboratory.save
       else
         format.html { render :new }
         format.json { render json: @laboratory.errors, status: :unprocessable_entity }
@@ -69,10 +71,6 @@ class LaboratoriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def laboratory_params
-<<<<<<< HEAD
-      params.require(:laboratory).permit(:name, :string, :dep_name, :string, :facilitador, :string)
-=======
       params.require(:laboratory).permit(:name, :department_id, :user_id)
->>>>>>> 3eabae6d504822de73998139fda6ae708c23e5d8
     end
 end

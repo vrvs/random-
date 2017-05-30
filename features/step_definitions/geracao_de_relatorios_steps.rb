@@ -61,22 +61,37 @@ Given(/^o sistema possui "([^"]*)" kg de residuos cadastrados entre entre as dat
 end
 #######################################################FIM RODRIGO######################################################################################################################################
 Given(/^o sistema possui o departamento de "([^"]*)" cadastrado com o resíduo "([^"]*)" com quantidade total de "([^"]*)"Kg$/) do |arg1, arg2, arg3|
-  dep = Department.create(name: arg1)
-  lab = dep.laboratories.create(name: "lab_base: " + arg1)
-  res = lab.residues.create(name: arg2)
-  reg = res.registers.create(weight: arg3.to_f())
+  col = {collection: {max_value: 7500.0}}
+  post '/collections', col
+  col = Collection.last
+  expect(col).to_not be nil
+  
+  dep = {department: {name: arg1}}
+  post '/departments', dep
+  dep = Department.find_by(name: arg1)
+  expect(dep).to_not be nil
+  
+  lab = {laboratory: {name: "lab_base: " + arg1, department_id: dep.id}}
+  post '/laboratories', lab
+  lab = Laboratory.find_by(name: "lab_base: " + arg1)
+  expect(lab).to_not be nil
+  
+  res = {residue: {name: arg2, collection_id: col.id, laboratory_id: lab.id}}
+  post '/residues', res
+  res = Residue.find_by(name: arg2)
+  expect(res).to_not be nil
+  
+  reg = {register: {weight: arg3, residue_id: res.id}}
+  post '/update_weight', reg
+  reg = res.registers.last
+
   expect(dep).to_not be nil
   expect(res).to_not be nil
   expect(reg).to_not be nil
-  expect(reg.weight).to_not be eq(arg3.to_f())
 end
 
 When(/^eu tento gerar um relatório dos resíduos do departamento de "([^"]*)", "([^"]*)" e "([^"]*)"$/) do |arg1, arg2, arg3|
-  dep = Department.find_by(name: arg1)
-  Residue.all.each do |it|
-    p it
-  end
-  pending # Write code here that turns the phrase above into concrete actions
+  
 end
 
 Then(/^o sistema retorna o valor de "([^"]*)"Kg para o resíduo "([^"]*)"$/) do |arg1, arg2|
@@ -98,4 +113,3 @@ end
 Then(/^o sistema retorna as informações "([^"]*)" e "([^"]*)"Kg\.$/) do |arg1, arg2|
   pending # Write code here that turns the phrase above into concrete actions
 end
-
