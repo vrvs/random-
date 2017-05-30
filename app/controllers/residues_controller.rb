@@ -62,6 +62,13 @@ class ResiduesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def total
+    total = 0
+    @Residue.all.each do |it|
+    total += it.registers.last.weight  
+  end
+end
   
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -73,4 +80,5 @@ class ResiduesController < ApplicationController
     def residue_params
       params.require(:residue).permit(:name, :kind, :blend, :onu, :code, :laboratory_id, :collection_id)
     end
+
 end
