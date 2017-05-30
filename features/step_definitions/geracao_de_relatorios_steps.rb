@@ -1,17 +1,22 @@
 @value_test = 0
 Given(/^o sistema possui o departamento de "([^"]*)"cadastrado$/) do |dep_name|
+  col = {collection: {max_value: 7500.0}}
+  post '/collections', col
+  col = Collection.last
+  expect(col).to_not be nil
+  
   dep = {department:{name: dep_name}}
   post '/departments', dep
-  
   expect(dep).to_not be nil
 end
 
 Given(/^o sistema possui o laboratorio de "([^"]*)" cadastrado no departamento de "([^"]*)"$/) do |lab_name, dep_name|
   dep = Department.find_by(name: dep_name)
   expect(dep).to_not be nil
-  lab = {laboratory:{name: lab_name, department_id: lab.id}}
+  lab = {laboratory: {name: lab_name, department_id: dep.id}}
   post '/laboratories', lab
-  expect(lab).to_not be 
+  lab = Laboratory.find_by(name: lab_name)
+  expect(lab).to_not be nil
   
 end
 
@@ -20,10 +25,13 @@ Given(/^o sistema possui "([^"]*)"kg de residuos cadastrados no laboratório de 
   expect(lab).to_not be nil
   res = {residue:{name: "Acido", laboratory_id: lab.id}}
   post '/residues', res
+  res = Residue.find_by(name: "Acido")
   expect(res).to_not be nil
-  reg = {register: {weight: res_weight.to_f(), created_at: '23/02/2017'.to_date}}
-  post 'update_weight', reg
-  expect(reg).to_not be nil
+  reg = {register: {weight: res_weight.to_f(), residue_id: res.id, created_at: '23/02/2017'.to_date}}
+  post '/update_weight', reg
+  reg = res.registers.last
+  p reg
+ # expect(reg).to_not be nil
   total = res.total
   expect(total).to eq(res_weight.to_f())
 end

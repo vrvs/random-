@@ -67,6 +67,8 @@ class ResiduesController < ApplicationController
     total = 0
     @Residue.all.each do |it|
     total += it.registers.last.weight  
+  end
+end
   
   # POST /update_weight
   def update_weight
