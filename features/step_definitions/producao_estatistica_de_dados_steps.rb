@@ -74,6 +74,7 @@ def cad_reg(weight, res_id, col_id)
  return Register.find_by(weight: weight.to_f())
 end
 
+
 Given(/^existe "([^"]*)" kg de "([^"]*)" de tipo "([^"]*)" cadastrado no sistema$/) do |res_weight, res_name, res_type|
  col = cad_col(0)
  expect(col).to_not be nil

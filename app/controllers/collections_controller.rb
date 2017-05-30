@@ -73,8 +73,8 @@ class CollectionsController < ApplicationController
     miss_days = miss_weight/mean
     miss_days = miss_days.ceil
     @collection.mean=mean
-    @collection.miss_days = miss_days
-    @collection.miss_weight = miss_weight
+    @collection.miss_days=miss_days
+    @collection.miss_weight=miss_weight
     @collection.save
   end
   
