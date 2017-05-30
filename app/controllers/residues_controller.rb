@@ -70,26 +70,6 @@ class ResiduesController < ApplicationController
   end
 end
   
-  # POST /update_weight
-  def update_weight
-    res = Residue.find(register_params[:residue_id])
-    if res != nil then
-      res.registers.create(weight: (res.registers.last!=nil ? res.registers.last.weight + register_params[:weight].to_f() : register_params[:weight].to_f()))
-    end
-    lab = Laboratory.find(res.laboratory_id)
-    if lab != nil then
-      lab.registers.create(weight: (lab.registers.last!=nil ? lab.registers.last.weight + register_params[:weight].to_f() : register_params[:weight].to_f()))
-    end
-    dep = Department.find(lab.department_id)
-    if dep != nil then
-      dep.registers.create(weight: (dep.registers.last!=nil ? dep.registers.last.weight + register_params[:weight].to_f() : register_params[:weight].to_f()))
-    end
-    col = Collection.find(res.collection_id)
-    if col != nil then
-      col.registers.create(weight: (col.registers.last!=nil ? col.registers.last.weight + register_params[:weight].to_f() : register_params[:weight].to_f()))
-    end
-  end
-  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_residue
@@ -100,9 +80,12 @@ end
     def residue_params
       params.require(:residue).permit(:name, :type, :blend, :onu, :code, :laboratory_id, :collection_id)
     end
+<<<<<<< HEAD
     
     def register_params
       params.require(:register).permit(:weight, :department_id, :laboratory_id, :residue_id, :collection_id)
     end
     
+=======
+>>>>>>> 4d7117e9d3448c11b14a32ebd182917105e2eb21
 end

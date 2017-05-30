@@ -60,6 +60,26 @@ class RegistersController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  # POST /update_weight
+  def update_weight
+    if register_params[:residue_id] != nil then
+      res = Residue.find(register_params[:residue_id])
+      res.registers.create(weight: res.registers.last.weight + register_params[:weight].to_f())
+    end
+    if res.laboratory_id != nil then
+      lab = Laboratory.find(res.laboratory_id)
+      lab.registers.create(weight: lab.registers.last.weight + register_params[:weight].to_f())
+    end
+    if lab.department_id != nil then
+      dep = Department.find(lab.department_id)
+      dep.registers.create(weight: dep.registers.last.weight + register_params[:weight].to_f())
+    end
+    if res.collection_id != nil then
+      col = Collection.find()
+      col.registers.create(weight: col.registers.last.weight + register_params[:weight].to_f())
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
