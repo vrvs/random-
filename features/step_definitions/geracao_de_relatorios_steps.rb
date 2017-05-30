@@ -23,12 +23,12 @@ Given(/^o sistema possui "([^"]*)"kg de residuos cadastrados no laboratório de 
   res = Residue.find_by(name: "Acido")
   expect(res).to_not be nil
   data = '23/02/2017'.to_date
-  reg = Register.create(weight: res_weight.to_f(), residue_id: res.id, created_at: data)
-  #reg = {register: {weight: res_weight.to_f(), residue_id: res.id, created_at: data}}
-  post '/update_weight', reg
-  p reg
+  data1 = '22/02/2017'.to_date
   reg = res.registers.last
-  p reg
+  reg.created_at =  data1
+  reg.save
+  reg = {register: {weight: res_weight.to_f(), residue_id: res.id, created_at: data}}
+  post '/update_weight', reg
   expect(reg).to_not be nil
   total = res.total
   expect(total).to eq(res_weight.to_f())
@@ -41,12 +41,11 @@ When(/^eu tento produzir o relatório total de resíduos cadastrados entre as da
 
 Residue.all.each do |it|
   rList = it.registers.where(created_at: [data_begin.to_date..data_final.to_date])
-  p rList
   expect(rList).to_not be nil
    residues_total_in_data = residues_total_in_data + (rList.last.weight - rList.first.weight)
   end
   @value_test = residues_total_in_data
-
+ 
 end
 
 Then(/^o valor retornado pelo sistema será "([^"]*)"kg$/) do |res_weight|
