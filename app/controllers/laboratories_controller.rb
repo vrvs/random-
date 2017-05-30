@@ -30,6 +30,8 @@ class LaboratoriesController < ApplicationController
       if @laboratory.save
         format.html { redirect_to @laboratory, notice: 'Laboratory was successfully created.' }
         format.json { render :show, status: :created, location: @laboratory }
+        @laboratory.registers.create(weight:0)
+        @laboratory.save
       else
         format.html { render :new }
         format.json { render json: @laboratory.errors, status: :unprocessable_entity }
