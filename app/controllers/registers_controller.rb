@@ -89,6 +89,6 @@ class RegistersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def register_params
-      params.require(:register).permit(:weight, :department_id, :laboratory_id, :residue_id, :collection_id)
+      params.require(:register).permit(:weight, :department_id, :laboratory_id, :residue_id, :collection_id, :report_id)
     end
 end

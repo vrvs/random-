@@ -63,6 +63,11 @@ class CollectionsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  # POST /generate_notification
+  def generate_notification
+  
+  # POST /generate_prediction
   def generate_prediction
     @collection = Collection.last
     weight =  @collection.registers.last.weight

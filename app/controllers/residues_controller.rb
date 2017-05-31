@@ -62,7 +62,7 @@ class ResiduesController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_residue
@@ -73,4 +73,5 @@ class ResiduesController < ApplicationController
     def residue_params
       params.require(:residue).permit(:name, :kind, :blend, :onu, :code, :laboratory_id, :collection_id)
     end
+
 end

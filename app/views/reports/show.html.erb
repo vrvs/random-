@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Generate for:</strong>
+  <%= @report.generate_for %>
+</p>
+
+<p>
+  <strong>Begin date:</strong>
+  <%= @report.begin_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @report.end_date %>
+</p>
+
+<p>
+  <strong>F unit:</strong>
+  <%= @report.f_unit %>
+</p>
+
+<p>
+  <strong>F state:</strong>
+  <%= @report.f_state %>
+</p>
+
+<p>
+  <strong>F kind:</strong>
+  <%= @report.f_kind %>
+</p>
+
+<p>
+  <strong>F onu:</strong>
+  <%= @report.f_onu %>
+</p>
+
+<p>
+  <strong>F blend:</strong>
+  <%= @report.f_blend %>
+</p>
+
+<p>
+  <strong>F code:</strong>
+  <%= @report.f_code %>
+</p>
+
+<p>
+  <strong>F total:</strong>
+  <%= @report.f_total %>
+</p>
+
+<p>
+  <strong>Collection:</strong>
+  <%= @report.collection %>
+</p>
+
+<%= link_to 'Edit', edit_report_path(@report) %> |
+<%= link_to 'Back', reports_path %>
