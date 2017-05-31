@@ -24,7 +24,7 @@ class CollectionsController < ApplicationController
   # POST /collections
   # POST /collections.json
 
-  def create
+  def create 
     @collection = Collection.new(collection_params)
     respond_to do |format|
       if @collection.save
@@ -66,6 +66,7 @@ class CollectionsController < ApplicationController
   
   # POST /generate_notification
   def generate_notification
+  end
   
   # POST /generate_prediction
   def generate_prediction
