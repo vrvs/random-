@@ -66,6 +66,7 @@ class CollectionsController < ApplicationController
   
   # POST /generate_notification
   def generate_notification
+  end
   
   # POST /generate_prediction
   def generate_prediction
