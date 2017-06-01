@@ -8,6 +8,16 @@ Rails.application.routes.draw do
   resources :laboratories
   resources :departments
   resources :registers
+  resources :application
+  
+  root 'application#index'
+  
+  get '/main_fac', to: 'application#main_fac'
+  get '/main_adm', to: 'application#main_adm'
+  get '/genarate_report', to: 'application#genarate_report'
+  get '/statistic', to: 'application#statistic'
+  get '/request', to: 'application#request'
+  get '/account', to: 'application#account'
   
   post '/update_weight', to: 'registers#update_weight'
   post '/generate_notification', to: 'collections#generate_notification'

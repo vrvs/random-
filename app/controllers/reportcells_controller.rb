@@ -64,83 +64,83 @@ class ReportcellsController < ApplicationController
   #POST '/generate_reportcell'
   def generate_reportcell
     rep = Report.all.last
-    case rep.generate_for
-    when 0
-      col = Collection.find(rep.collection_id)
-      res_order = col.residues.where(created_at: [rep.begin_date..rep.end_date]).order(:name)
-      res_order.each do |it|
-        reg_order = it.registers.where(created_at: [rep.begin_date..rep.end_date]).order(:created_at)
-        rep.registers.create(weight: rep.registers.last.weight + reg_order.last.weight)
-        
-        repc = Reportcell.find_by(res_name: it.name)
-        if repc == nil then
-          repc = Reportcell.create(res_name: it.name, total: 0, report_id: rep.id)
-        end
-        add_constraint(rep, repc, it)
-      end
-    when 1
-      dep = Department.find_by(name: reportcell_params[:dep_name])
-      lab_order = dep.laboratories.where(created_at: [rep.begin_date..rep.end_date]).order(:name)
-      lab_order.each do |l|
-        res_order = l.residues.where(created_at: [rep.begin_date..rep.end_date]).order(:name)
+    case rep.generate_by
+      when 0  #relatório por coleção
+        col = Collection.find(rep.collection_id)
+        res_order = col.residues.where("created_at BETWEEN ? AND ? OR updated_at BETWEEN ? AND ?", rep.begin_date, rep_end_date, rep.begin_date, rep_end_date).order(:name)
         res_order.each do |it|
           reg_order = it.registers.where(created_at: [rep.begin_date..rep.end_date]).order(:created_at)
           rep.registers.create(weight: rep.registers.last.weight + reg_order.last.weight)
-        
-          repc = Reportcell.find_by(res_name: it.name, dep_name: dep.name)
+          repc = Reportcell.find_by(res_name: it.name)
           if repc == nil then
-            repc = Reportcell.create(res_name: it.name, dep_name: dep.name, total: 0, report_id: rep.id)
+            repc = Reportcell.create(res_name: it.name, total: 0, report_id: rep.id)
           end
           add_constraint(rep, repc, it)
         end
-      end
-    when 2
-      lab = Laboratory.find_by(name: reportcell_params[:lab_name])
-      res_order = lab.residues.where(created_at: [rep.begin_date..rep.end_date]).order(:name)
-      res_order.each do |it|
-        reg_order = it.registers.where(created_at: [rep.begin_date..rep.end_date]).order(:created_at)
-        rep.registers.create(weight: rep.registers.last.weight + reg_order.last.weight)
-      
-        repc = Reportcell.find_by(res_name: it.name, lab_name: lab.name)
-        if repc == nil then
-          repc = Reportcell.create(res_name: it.name, lab_name: lab.name, total: 0, report_id: rep.id)
+      when 1  #relatório por departamento
+        dep = Department.find_by(name: reportcell_params[:dep_name])
+        lab_order = dep.laboratories.where(created_at: [rep.begin_date..rep.end_date]).order(:name)
+        lab_order.each do |l|
+          res_order = l.residues.where(created_at: [rep.begin_date..rep.end_date]).order(:name)
+          res_order.each do |it|
+            reg_order = it.registers.where(created_at: [rep.begin_date..rep.end_date]).order(:created_at)
+            rep.registers.create(weight: rep.registers.last.weight + reg_order.last.weight)
+            repc = Reportcell.find_by(res_name: it.name, dep_name: dep.name, lab_name: l.name)
+            if repc == nil then
+              repc = Reportcell.create(res_name: it.name, dep_name: dep.name, lab_name: l.name, total: 0, report_id: rep.id)
+            end
+            add_constraint(rep, repc, it)
+          end
         end
-        add_constraint(rep, repc, it)
-      end
-    when 3
-      puts 'Relatorios por residues'
+      when 2  #relatório por laboratórios
+        lab = Laboratory.find_by(name: reportcell_params[:lab_name])
+        res_order = lab.residues.where(created_at: [rep.begin_date..rep.end_date]).order(:name)
+        res_order.each do |it|
+          reg_order = it.registers.where(created_at: [rep.begin_date..rep.end_date]).order(:created_at)
+          rep.registers.create(weight: rep.registers.last.weight + reg_order.last.weight)
+          repc = Reportcell.find_by(res_name: it.name, lab_name: lab.name)
+          if repc == nil then
+            repc = Reportcell.create(res_name: it.name, lab_name: lab.name, total: 0, report_id: rep.id)
+          end
+          add_constraint(rep, repc, it)
+        end
+      when 3 #relatório por residuos
+        res_order = lab.residues.where(created_at: [rep.begin_date..rep.end_date]).order(:name)
+        res_order.each do |it|
+          reg_order = it.registers.where(created_at: [rep.begin_date..rep.end_date]).order(:created_at)
+          rep.registers.create(weight: rep.registers.last.weight + reg_order.last.weight)
+          repc = Reportcell.find_by(res_name: it.name, lab_name: lab.name)
+          if repc == nil then
+            repc = Reportcell.create(res_name: it.name, lab_name: lab.name, total: 0, report_id: rep.id)
+          end
+          add_constraint(rep, repc, it)
+        end
     end
-  end
+  end  
   
   def add_constraint(rep, repc, res)
-    if rep.f_blend then
+    if rep.f_blend then 
       repc.blend = res.blend
-      repc.save
-    end
-    if rep.f_code then
+    end 
+    if rep.f_code then 
       repc.code = res.code
-      repc.save
-    end
-    if rep.f_kind then
+    end 
+    if rep.f_kind then 
       repc.kind = res.kind
-      repc.save
-    end
-    if rep.f_onu then
+    end 
+    if rep.f_onu then 
       repc.onu = res.onu
-      repc.save
-    end
-    if rep.f_state then
+    end 
+    if rep.f_state then 
       repc.state = res.state
-      repc.save
-    end
-    if rep.f_total then
-      repc.total = repc.total + res.registers.last.weight
-      repc.save
-    end
-    if rep.f_unit then
+    end 
+    if rep.f_unit then 
       repc.unit = res.unit
-      repc.save
+    end 
+    if rep.f_total then 
+      repc.total = repc.total + res.registers.last.weight 
     end
+    repc.save
   end
 
   private

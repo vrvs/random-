@@ -19,6 +19,7 @@ Feature: Geração de Relatórios
     And o sistema possui "700" kg de residuos cadastrados entre entre as datas "22/03/2017" e "24/03/2017" para o laboratorio de "Processos Químicos"
     When eu tento produzir o relatório total de resíduos cadastrados entre as datas "21/02/2017" e "21/03/2017" para o departamento de "Engenharia Química"
     Then o valor retornado pelo sistema será "300"kg
+  
   @c3
   Scenario: Produzir relatório de resíduos por laboratório entre datas específicas.
     Given que eu estou na página "Geração de Relatórios"
@@ -29,6 +30,7 @@ Feature: Geração de Relatórios
     When eu peço para "Gerar Relatório"
     And eu vou para a página de resumo de sistema
     Then eu devo visualizar a quantidade de resíduos produzidos, associado ao "Laboratório de Processos Químicos" entre as datas  "21/02/2017" e  "24/03/2017"
+  
   @c4
   Scenario: Produzir relatório mensal do total de resíduo(s) para um departamento específico.
     Given  que eu estou na página "Geração de Relatórios"

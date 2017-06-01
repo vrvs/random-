@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20170530115704) do
   end
 
   create_table "reports", force: :cascade do |t|
-    t.integer  "generate_for"
+    t.integer  "generate_by"
     t.date     "begin_date"
     t.date     "end_date"
     t.boolean  "f_unit"

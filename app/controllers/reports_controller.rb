@@ -71,6 +71,6 @@ class ReportsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def report_params
-      params.require(:report).permit(:generate_for, :begin_date, :end_date, :f_unit, :f_state, :f_kind, :f_onu, :f_blend, :f_code, :f_total, :collection_id)
+      params.require(:report).permit(:generate_by, :begin_date, :end_date, :f_unit, :f_state, :f_kind, :f_onu, :f_blend, :f_code, :f_total, :collection_id)
     end
 end
