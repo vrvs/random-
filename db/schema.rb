@@ -15,17 +15,8 @@ ActiveRecord::Schema.define(version: 20170530115704) do
   create_table "collections", force: :cascade do |t|
     t.float    "max_value"
     t.text     "report"
-    t.float    "mean"
-    t.float    "miss_weight"
-    t.integer  "miss_days"
-    t.float    "solido_organico"
-    t.float    "solido_inorganico"
-    t.float    "liquido_organico"
-    t.float    "liquido_inorganico"
-    t.float    "liquido_inflamavel"
-    t.float    "outros"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "departments", force: :cascade do |t|

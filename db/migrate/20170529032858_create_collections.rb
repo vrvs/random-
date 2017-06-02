@@ -3,6 +3,7 @@ class CreateCollections < ActiveRecord::Migration[5.0]
     create_table :collections do |t|
       t.float :max_value
       t.text :report
+=begin
       t.float :mean
       t.float :miss_weight
       t.integer :miss_days
@@ -12,6 +13,7 @@ class CreateCollections < ActiveRecord::Migration[5.0]
       t.float :liquido_inorganico
       t.float :liquido_inflamavel
       t.float :outros
+=end
       t.timestamps
     end
   end

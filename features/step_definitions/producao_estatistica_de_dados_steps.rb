@@ -27,12 +27,12 @@ end
 When(/^eu tento gerar a "([^"]*)"$/) do |action|
   if action == "Previsão de Notificação de Coleta"
       #Chama a rota ganerate_prediction_url que chama o controlador Collection e #action generate_prediction
-      post '/generate_prediction_url'
+      @collection = Collection.last
+      @collection.generate_prediction
   end
 end
  
 Then(/^o sistema calcula a média de "([^"]*)" kg\/dia$/) do |mean|
- @collection = Collection.last
  expect(@collection.mean).to eq(mean.to_f())
 end
  
@@ -92,7 +92,8 @@ end
 When(/^eu tento gerar o "([^"]*)"$/) do |action|
  if action == "Total de Resíduos Acumulados por Tipo"
      #Chama a rota type_residue_url que chama o controlador Collection e #action type_residue
-     post 'type_residue_url'
+     @collection = Collection.last
+     @collection.type_residue
  end
 end
 
@@ -104,8 +105,6 @@ Then(/^o sistema calcula o  "([^"]*)" com "([^"]*)" kg de substâncias de tipo "
 end
 
 def validate(res_type, res_weight)
- 
- @collection = Collection.last
  case res_type
  when "Sólido Orgânico"
   expect(@collection.solido_organico).to eq(res_weight.to_f())

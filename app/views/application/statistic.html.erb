@@ -1,1 +1,34 @@
-<h1>pagina de estatistica de dados</h1>
+<h1>Estatistica</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resíduos Cadastrados</th>
+      <tr>
+          <th>Nome</th>
+          <th>Tipo</th>
+          <th>Peso</th>
+          <th>Departamento</th>
+          <th colspan="3"></th>
+        </tr>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @residues.each do |residue| %>
+      <tr>
+        <td><%= residue.name %></td>
+        <td><%= residue.kind %></td>
+        <td><%= residue.registers.last.weight %></td>
+        <td><%= residue %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% if false %>
+<%= link_to 'Cadastrar nova vaga', new_vaga_path %> |
+#<%= link_to 'Overview', overview_path %>--
+<% end %>
