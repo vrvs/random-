@@ -69,6 +69,7 @@ class CollectionsController < ApplicationController
   end
   
   # POST /generate_prediction
+=begin
   def generate_prediction
     @collection = Collection.last
     weight =  @collection.registers.last.weight
@@ -110,7 +111,7 @@ class CollectionsController < ApplicationController
       @collection.save
     end
   end
-  
+=end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_collection
