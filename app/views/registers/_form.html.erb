@@ -18,22 +18,22 @@
 
   <div class="field">
     <%= f.label :department_id %>
-    <%= f.text_field :department_id %>
+    <%= f.collection_select(:department_id, Department.all.order(:name), :id, :name) %>
   </div>
 
   <div class="field">
     <%= f.label :laboratory_id %>
-    <%= f.text_field :laboratory_id %>
+    <%= f.collection_select(:laboratory_id, Laboratory.all.order(:name), :id, :name) %>
   </div>
 
   <div class="field">
     <%= f.label :residue_id %>
-    <%= f.text_field :residue_id %>
+    <%= f.collection_select(:residue_id, Residue.all.order(:name), :id, :name) %>
   </div>
 
   <div class="field">
     <%= f.label :collection_id %>
-    <%= f.text_field :collection_id %>
+    <%= f.collection_select(:collection_id, Collection.all.order(:max_value), :id, :max_value) %>
   </div>
 
   <div class="actions">

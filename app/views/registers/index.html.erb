@@ -17,14 +17,16 @@
   <tbody>
     <% @registers.each do |register| %>
       <tr>
-        <td><%= register.weight %></td>
-        <td><%= register.department %></td>
-        <td><%= register.laboratory %></td>
-        <td><%= register.residue %></td>
-        <td><%= register.collection %></td>
-        <td><%= link_to 'Show', register %></td>
-        <td><%= link_to 'Edit', edit_register_path(register) %></td>
-        <td><%= link_to 'Destroy', register, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if register.weight != 0.0 %>
+          <td><%= register.weight %></td>
+          <td><%= Department.find(register.department_id).name %></td>
+          <td><%= Laboratory.find(register.laboratory_id).name %></td>
+          <td><%= Residue.find(register.residue_id).name %></td>
+          <td><%= Collection.find(register.collection_id).max_value %></td>
+          <td><%= link_to 'Show', register %></td>
+          <td><%= link_to 'Edit', edit_register_path(register) %></td>
+          <td><%= link_to 'Destroy', register, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

@@ -29,7 +29,7 @@ Scenario: Gerar a Notificação de Coleta sem resíduos cadastrados, GUI
 
 @b4
 Scenario: Gerar Dados de Total de Resíduos Acumulados por Tipo de Resíduo baseado em resíduos cadastrados, GUI
-  Given eu vejo a lista de "Resíduos cadastrados" com "800" kg de "Ácido Acético" de tipo "Líquido Inflamável" e "300" kg de "Etanol" de tipo "Líquido Inflamável" e "1200" kg de "Cal" de tipo "Sólido Inorgânico"
+  Given eu vejo a lista de "Resíduos Cadastrados" com "800.0" kg de "Ácido Acético" de tipo "Líquido Inflamável" e "300" kg de "Etanol" de tipo "Líquido Inflamável" e "1200" kg de "Cal" de tipo "Sólido Inorgânico"
   When eu seleciono a opção "Gerar Total de Resíduos Acumulados por Tipo"
   Then eu vejo uma lista com o "Total de Resíduos Acumulados por Tipo" com  "1100" kg de substâncias de tipo "Líquidos Inflamáveis" e "1200" kg de substâncias de tipo "Sólidos Inorgânicos"
   #@b5

@@ -122,3 +122,50 @@ def validate(res_type, res_weight)
  
 end
 
+Given(/^eu vejo a lista de "([^"]*)" vazia$/) do |arg1|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^eu seleciono a opção "([^"]*)"$/) do |arg1|
+  click_on(arg1)
+end
+
+Then(/^eu vejo uma mensagem informando que não há resíduos cadastrados$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Given(/^eu vejo a lista de "([^"]*)" com "([^"]*)" kg de "([^"]*)" de tipo "([^"]*)" e "([^"]*)" kg de "([^"]*)" de tipo "([^"]*)" e "([^"]*)" kg de "([^"]*)" de tipo "([^"]*)"$/) do |list, res_weight1, res_name1, res_type1, res_weight2, res_name2, res_type2,res_weight3, res_name3, res_type3|
+ visit 'statistic'
+ col = cad_col(0)
+ expect(col).to_not be nil
+ dep = cad_dep("Departamento de Genetica")
+ expect(dep).to_not be nil
+ lab = cad_lab("Laboratorio de Genetica Aplicada", dep.id)
+ expect(lab).to_not be nil
+ res = cad_res(res_name1,lab.id,res_type1)
+ expect(res).to_not be nil
+ reg = cad_reg(res_weight1.to_f(),res.id,col.id)
+ expect(reg).to_not be nil
+ res = cad_res(res_name2,lab.id,res_type2)
+ expect(res).to_not be nil
+ reg = cad_reg(res_weight2.to_f(),res.id,col.id)
+ expect(reg).to_not be nil
+ res = cad_res(res_name3,lab.id,res_type3)
+ expect(res).to_not be nil
+ reg = cad_reg(res_weight3.to_f(),res.id,col.id)
+ expect(reg).to_not be nil
+ visit 'statistic'
+ element = find("th", text: list)
+ p element
+ element = find("td", text: res_name1)
+ p element
+ element = find("td", text: res_name2)
+ p element
+ element = find("td", text: res_name3)
+ p element
+ p element
+end
+
+Then(/^eu vejo uma lista com o "([^"]*)" com  "([^"]*)" kg de substâncias de tipo "([^"]*)" e "([^"]*)" kg de substâncias de tipo "([^"]*)"$/) do |arg1, arg2, arg3, arg4, arg5|
+  pending # Write code here that turns the phrase above into concrete actions
+end
